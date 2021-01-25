@@ -1,5 +1,11 @@
 import * as PIXI from "pixi.js";
-console.log("updated");
+import {bgTexture,
+  bulletTexture,
+  hayTexture,
+  wallTexture,
+  redTankTexture,
+  greenTankTexture,
+  blueTankTexture,} from "./textures"
 
 const canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
 
@@ -13,19 +19,11 @@ let app = new PIXI.Application({
   height: _h,
 });
 
-const bgTexture = PIXI.Texture.from("/assets/bg.png");
-const bulletTexture = PIXI.Texture.from("/assets/bullet.png");
-const hayTexture = PIXI.Texture.from("/assets/hay.png");
-const wallTexture = PIXI.Texture.from("/assets/brickwall.png");
-
-const redTankTexture = PIXI.Texture.from("/assets/tank-red.png");
-const greenTankTexture = PIXI.Texture.from("/assets/tank-green.png");
-const blueTankTexture = PIXI.Texture.from("/assets/tank-blue.png");
 
 const screenWidth = app.renderer.screen.width;
 const screenHeight = app.renderer.screen.height;
 
-//Creat container
+//Creat container for tank(necesary for rotation)
 
 let tankContainer = new PIXI.Container();
 
@@ -36,6 +34,13 @@ let redTank = new PIXI.Sprite(redTankTexture);
 let greenTank = new PIXI.Sprite(greenTankTexture);
 let blueTank = new PIXI.Sprite(blueTankTexture);
 
+let tanks = [redTank, greenTank, blueTank]
+
+tanks.map((tank)=>{
+  tank.height = 70
+  tank.width = 70
+})
+
 //Set tank names for conditional
 redTank.name = "redTank";
 greenTank.name = "greenTank";
@@ -45,12 +50,6 @@ bg.height = screenHeight;
 bullet.width = 30;
 bullet.height = 30;
 bullet.name = "bullet";
-redTank.width = 70;
-redTank.height = 70;
-greenTank.width = 70;
-greenTank.height = 70;
-blueTank.width = 70;
-blueTank.height = 70;
 
 app.stage.addChild(bg);
 //Set Image to Center
@@ -98,6 +97,7 @@ const toggleTank = () => {
   tankContainer.addChild(activeTank);
 };
 
+//Declare type for obstacle
 type obsElement = {
   sprite: PIXI.Sprite;
   health: number;
@@ -105,6 +105,7 @@ type obsElement = {
 
 let hayArray: Array<obsElement> = [];
 let wallArray: Array<obsElement> = [];
+
 
 const addObs = (name: string, texture: PIXI.Texture) => {
   let obsElement: obsElement;
