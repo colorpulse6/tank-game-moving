@@ -1,4 +1,4 @@
-# Tank You Static
+# Tank You Moving
 ## Description
 A tank game with moving obstacles.  
 
