@@ -52,6 +52,7 @@ bullet.height = 30;
 bullet.name = "bullet";
 
 app.stage.addChild(bg);
+
 //Set Image to Center
 bg.x = screenWidth / 2;
 bg.y = screenHeight / 2;
@@ -63,6 +64,7 @@ let activeTank = redTank;
 
 activeTank.x = screenWidth / 2;
 activeTank.y = screenHeight - 100;
+
 //Add to container
 app.stage.addChild(tankContainer);
 
@@ -118,7 +120,6 @@ const addObs = (name: string, texture: PIXI.Texture) => {
   obsElement.sprite.width = 50;
   obsElement.sprite.height = 50;
 
-  // obsElement.health = 100;
 
   obsElement.sprite.name = name;
   app.stage.addChild(obsElement.sprite);
@@ -135,6 +136,7 @@ let lastSpawn = -10;
 let rateOfDescent = 0.7;
 
 const makeFall = () => {
+
   //Spread item
   var time = Date.now();
   if (time > lastSpawn + spawnRate) {
@@ -166,8 +168,8 @@ let bullets: Array<PIXI.Sprite> = [];
 let bulletSpeed = 5;
 
 let count = 0;
-//Collision detection (for bullets)
 
+//Collision detection (for bullets)
 function collision(obs1:PIXI.Sprite, obs2:PIXI.Sprite){
   return obs2.x + obs2.width > obs1.x &&
   obs2.x < obs1.x + obs1.width &&
@@ -177,6 +179,7 @@ function collision(obs1:PIXI.Sprite, obs2:PIXI.Sprite){
 
 function detectHit(obs1: PIXI.Sprite, obs2: obsElement) {
   if (collision(obs1, obs2.sprite)) {
+
     //Remove bullets on target hit
     handleExitBullets(obs1, bullets);
 
@@ -194,8 +197,6 @@ function detectHit(obs1: PIXI.Sprite, obs2: obsElement) {
           break;
       }
     }
-
-    console.log(obs2.health);
   }
 
   //Remove dead targets
@@ -208,8 +209,8 @@ function detectHit(obs1: PIXI.Sprite, obs2: obsElement) {
   let score = document.getElementById("score") as HTMLElement;
   score.innerHTML = `Score: ${String(count)}`;
 }
-//Collision detection (for tank)
 
+//Collision detection (for tank)
 function detectCollision(obs1: PIXI.Sprite, obs2: PIXI.Sprite) {
   if (collision(obs1, obs2)) { 
     //Check for tank collision
@@ -227,9 +228,11 @@ function shoot(rotation: number, startPosition: { x: number; y: number }) {
 }
 
 function handleBullets(eachHay: obsElement) {
+
   //Control Bullets
   for (var k = 0; k < bullets.length; k++) {
     let eachBullet = bullets[k];
+
     //Rotate bullet pos with tank
     eachBullet.position.x += eachBullet.rotation * bulletSpeed;
     eachBullet.position.y +=
@@ -246,13 +249,11 @@ function handleBullets(eachHay: obsElement) {
 function handleExitBullets(item: PIXI.Sprite, array: Array<PIXI.Sprite>) {
   app.stage.removeChild(item);
   array.splice(array.indexOf(item), 1);
-  console.log("bullet exit");
 }
 
 function handleExitObs(item: obsElement, array: Array<obsElement>) {
   app.stage.removeChild(item.sprite);
   array.splice(array.indexOf(item), 1);
-  console.log("obs exit");
 }
 
 //Handle Controls
@@ -260,6 +261,7 @@ const onKeyDown = (e: KeyboardEvent) => {
   switch (e.code) {
     case "ArrowRight":
       activeTank.x += 25;
+
       //Set moving tank coords
       tankPos.x = activeTank.x;
       tankContainer.pivot.x = activeTank.x + 25;
